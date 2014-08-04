@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Addon Author="Valkorian" APIVersion="9" Name="Afkreply" Description="will /w a message if your away">
+    <Script Name="Afkreply.lua"/>
+    <Form Name="Afkreply.xml"/>
+</Addon>
