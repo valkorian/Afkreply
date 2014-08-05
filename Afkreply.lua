@@ -113,19 +113,23 @@ function Afkreply:OnChatMessage(channelCurrent, tMessage)
 		bPlayerAway = false
 	end
 	
-	if bPlayerAway == true then
-		if channelCurrent:GetName() == "Whisper" then
-			if tMessage.strSender ~=  GameLib.GetPlayerUnit():GetName() then
-				if lastSent ~= tMessage.strSender then
-					self:StoreNewWhisper(tMessage.strSender,tMessage.arMessageSegments[1].strText)
-					lastSent = tMessage.strSender
-					if sendMessage == true then
-						ChatSystemLib.Command("/w "..tMessage.strSender.." "..message.."")
-					end
-				end
-			end
+	-- clear code suggested by Therzok
+	if not bPlayerAway or 
+		channelCurrent:GetName() ~= "Whisper" or
+		tMessage.strSender == GameLib.GetPlayerUnit():GetName() or
+		lastSent == tMessage.strSender
+	then
+		return
+	else
+		self:StoreNewWhisper(tMessage.strSender,tMessage.arMessageSegments[1].strText)
+		lastSent = tMessage.strSender
+		if sendMessage then
+			ChatSystemLib.Command("/w "..tMessage.strSender.." "..message.."")
 		end
 	end
+	
+	
+
 end
 
 function Afkreply:UpdateDisplay()
